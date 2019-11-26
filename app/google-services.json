@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "625706127773",
+    "firebase_url": "https://partyhere-dbeba.firebaseio.com",
+    "project_id": "partyhere-dbeba",
+    "storage_bucket": "partyhere-dbeba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625706127773:android:907c6b0fa4af2d7111df74",
+        "android_client_info": {
+          "package_name": "com.inhascp.partyhere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625706127773-kkiljbbncoq35tp3ikspeco8a37dqpdv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtv4ID5FMf43CdIwEwvrNTx32wdWqNnZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625706127773-kkiljbbncoq35tp3ikspeco8a37dqpdv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
