@@ -4,11 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".NewMeetingActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <CheckBox
+        android:id="@+id/activity_new_meeting_cb_study"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="새 방 화면" />
+        android:text="공부" />
+
+    <CheckBox
+        android:id="@+id/activity_new_meeting_cb_talk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="대화" />
+
+    <CheckBox
+        android:id="@+id/activity_new_meeting_cb_eat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="식사" />
+
+    <CheckBox
+        android:id="@+id/activity_new_meeting_cb_drink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="술" />
+
+    <CheckBox
+        android:id="@+id/activity_new_meeting_cb_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="액티비티" />
+
+    <Button
+        android:id="@+id/activity_new_meeting_btn_make"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="만들기" />
 </LinearLayout>

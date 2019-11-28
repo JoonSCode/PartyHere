@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Meeting {
-    private String MeetingType;
+    private List<String> MeetingType;
     private List<String> MemberKeys;
     private HashMap<String,String> Members;
     private HashMap<String,String> RecommendPlace;
@@ -12,14 +12,14 @@ public class Meeting {
     public Meeting() {
     }
 
-    public Meeting(String meetingType, List<String> memberKeys, HashMap<String, String> members, HashMap<String, String> recommendPlace) {
+    public Meeting(List<String> meetingType, List<String> memberKeys, HashMap<String, String> members, HashMap<String, String> recommendPlace) {
         MeetingType = meetingType;
         MemberKeys = memberKeys;
         Members = members;
         RecommendPlace = recommendPlace;
     }
 
-    public String getMeetingType() {
+    public List<String> getMeetingType() {
         return MeetingType;
     }
 
@@ -34,4 +34,5 @@ public class Meeting {
     public HashMap<String, String> getRecommendPlace() {
         return RecommendPlace;
     }
+
 }
