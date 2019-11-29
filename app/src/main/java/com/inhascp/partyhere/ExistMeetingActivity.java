@@ -1,21 +1,16 @@
 package com.inhascp.partyhere;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Document;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ExistMeetingActivity extends AppCompatActivity {
 
@@ -25,6 +20,7 @@ public class ExistMeetingActivity extends AppCompatActivity {
     private TextView mType;
     private Meeting meeting;
     private String mMeetingKey;
+    private Intent mIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +28,25 @@ public class ExistMeetingActivity extends AppCompatActivity {
 
         init();
         mMeetingKey = "u0LiRsDwiU0UsEIsr5hV";
-        db.collection("Meeting").document(mMeetingKey).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        mIntent = getIntent();
+        mMeetingKey = mIntent.getStringExtra("MEETING_KEY");
+        db.collection("Meeting").document(mMeetingKey).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot documentSnapshot = task.getResult();
-                meeting = documentSnapshot.toObject(Meeting.class);
-                String memberKey = meeting.getMemberKeys().get(0);
-                mParticipant.setText(meeting.getMembers().get(memberKey));
-                mRecommend.setText(meeting.getRecommendPlace().get("인하대"));
-                mType.setText(meeting.getMeetingType().get(0));
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    meeting = snapshot.toObject(Meeting.class);
+                    String memberKey = meeting.getMemberKeys().get(0);
+                    mParticipant.setText(meeting.getMembers().get(memberKey));
+                    mRecommend.setText(meeting.getRecommendPlace().get("인하대"));
+                    mType.setText(meeting.getMeetingType().get(0));
+                }
+                else {
+                }
             }
         });
     }

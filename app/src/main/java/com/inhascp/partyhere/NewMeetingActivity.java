@@ -1,10 +1,13 @@
 package com.inhascp.partyhere;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.RadioGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -13,8 +16,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class NewMeetingActivity extends AppCompatActivity {
 
@@ -28,6 +29,9 @@ public class NewMeetingActivity extends AppCompatActivity {
     private CheckBox mTypeDrink;//값 4
     private CheckBox mTypeActivity;//값 5
     private Button mMake;
+    private Context mContext;
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +61,15 @@ public class NewMeetingActivity extends AppCompatActivity {
                 mMemberKeys.add(KEY);
                 mMembers.put(KEY,"");
                 Meeting meeting = new Meeting(mType, mMemberKeys, mMembers, new HashMap<String, String>());
-                DocumentReference MeetingKey = db.collection("Meeting").document();
-                MeetingKey.set(meeting);
+                String MeetingKey = db.collection("Meeting").document().getId();
+                db.collection("Meeting").document(MeetingKey).set(meeting);
                 DocumentReference User = db.collection("User").document(KEY);
                 User.update("MeetingKeys", FieldValue.arrayUnion(MeetingKey));
 
+                intent = new Intent(mContext, ExistMeetingActivity.class);
+                intent.putExtra("MEETING_KEY", MeetingKey);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -75,5 +83,6 @@ public class NewMeetingActivity extends AppCompatActivity {
         mTypeDrink = findViewById(R.id.activity_new_meeting_cb_drink);
         mTypeActivity = findViewById(R.id.activity_new_meeting_cb_activity);
         mMake = findViewById(R.id.activity_new_meeting_btn_make);
+        mContext = this;
     }
 }

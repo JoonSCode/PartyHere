@@ -4,35 +4,34 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Meeting {
-    private List<String> MeetingType;
-    private List<String> MemberKeys;
-    private HashMap<String,String> Members;
-    private HashMap<String,String> RecommendPlace;
+    private List<String> meetingType;
+    private List<String> memberKeys;
+    private HashMap<String,String> members;
+    private HashMap<String,String> recommendPlace;
 
     public Meeting() {
     }
 
     public Meeting(List<String> meetingType, List<String> memberKeys, HashMap<String, String> members, HashMap<String, String> recommendPlace) {
-        MeetingType = meetingType;
-        MemberKeys = memberKeys;
-        Members = members;
-        RecommendPlace = recommendPlace;
+        this.meetingType = meetingType;
+        this.memberKeys = memberKeys;
+        this.members = members;
+        this.recommendPlace = recommendPlace;
     }
 
     public List<String> getMeetingType() {
-        return MeetingType;
+        return meetingType;
     }
 
     public List<String> getMemberKeys() {
-        return MemberKeys;
+        return memberKeys;
     }
 
     public HashMap<String, String> getMembers() {
-        return Members;
+        return members;
     }
 
     public HashMap<String, String> getRecommendPlace() {
-        return RecommendPlace;
+        return recommendPlace;
     }
-
 }
