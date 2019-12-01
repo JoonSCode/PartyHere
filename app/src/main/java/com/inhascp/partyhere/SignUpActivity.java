@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    final Context mContext = this;
     private Button mCompleteButton;
     private Intent mIntent;
 
@@ -23,7 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
         mCompleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIntent = new Intent(mContext, LoginActivity.class);
+                mIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(mIntent);
             }
         });

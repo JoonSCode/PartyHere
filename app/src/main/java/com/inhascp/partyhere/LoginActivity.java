@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    final Context mContext = this;
 
     private Button mSignInButton;
     private Button mSignUpButton;
@@ -25,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 mIntent = new Intent(mContext, SignUpActivity.class);
+                 mIntent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(mIntent);
             }
         });
@@ -33,8 +32,11 @@ public class LoginActivity extends AppCompatActivity {
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIntent = new Intent(mContext, MainActivity.class);
+                mIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mIntent);
+
+                //login 완료 시
+                finish();
             }
         });
 

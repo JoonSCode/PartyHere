@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NewMeetingActivity">
+    tools:context=".InputTypeActivity">
 
     <CheckBox
         android:id="@+id/activity_new_meeting_cb_study"

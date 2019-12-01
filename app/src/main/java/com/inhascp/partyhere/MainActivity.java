@@ -19,5 +19,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        if(InputPlaceActivity.activity != null){
+            InputPlaceActivity activity = InputPlaceActivity.activity;
+            activity.finish();
+        }
     }
 }

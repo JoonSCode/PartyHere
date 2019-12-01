@@ -19,9 +19,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.inhascp.partyhere.ExistMeetingActivity;
+import com.inhascp.partyhere.InputPlaceActivity;
 import com.inhascp.partyhere.ListViewAdapter;
 import com.inhascp.partyhere.MeetingListItem;
-import com.inhascp.partyhere.NewMeetingActivity;
+import com.inhascp.partyhere.InputTypeActivity;
 import com.inhascp.partyhere.R;
 import com.inhascp.partyhere.User;
 
@@ -69,9 +70,10 @@ public class Tab1Fragment extends Fragment {
                     return;
                 }
                 if (snapshot != null && snapshot.exists()) {
+                    //System.out.println("print: "+ snapshot.toString());
                     User user = snapshot.toObject(User.class);
                     ArrayList<String> mMeetingKeys = user.getMeetingKeys();
-
+                    mListViewAdapter.clear();
                     for(int i = 0; i < mMeetingKeys.size(); i++) {
                         String mMeetingKey = mMeetingKeys.get(i);
                         String mMeetingTitle = user.getMeetingTitle().get(mMeetingKey);
@@ -94,13 +96,14 @@ public class Tab1Fragment extends Fragment {
 
                 mIntent = new Intent(getContext(), ExistMeetingActivity.class);
                 mIntent.putExtra("MEETING_KEY", item.getmMeetingKey());
+                mIntent.putExtra("USER_KEY", KEY);
                 startActivity(mIntent);
             }
         }) ;
         mNewMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIntent = new Intent(getContext(), NewMeetingActivity.class);
+                mIntent = new Intent(getContext(), InputPlaceActivity.class);
                 startActivity(mIntent);
             }
         });
