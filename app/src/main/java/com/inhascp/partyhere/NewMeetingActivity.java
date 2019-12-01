@@ -20,7 +20,7 @@ import java.util.List;
 public class NewMeetingActivity extends AppCompatActivity {
 
 
-    static final String KEY = "NueasP51ZCXmqkhcY60E";
+    static final String KEY = "NueasP51ZCXmqkhcY60E";//userkey
 
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CheckBox mTypeStudy;//값 1
@@ -64,7 +64,7 @@ public class NewMeetingActivity extends AppCompatActivity {
                 String MeetingKey = db.collection("Meeting").document().getId();
                 db.collection("Meeting").document(MeetingKey).set(meeting);
                 DocumentReference User = db.collection("User").document(KEY);
-                User.update("MeetingKeys", FieldValue.arrayUnion(MeetingKey));
+                User.update("meetingKeys", FieldValue.arrayUnion(MeetingKey));
 
                 intent = new Intent(mContext, ExistMeetingActivity.class);
                 intent.putExtra("MEETING_KEY", MeetingKey);
