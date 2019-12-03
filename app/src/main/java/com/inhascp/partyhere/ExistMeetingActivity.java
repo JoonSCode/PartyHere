@@ -51,12 +51,18 @@ public class ExistMeetingActivity extends AppCompatActivity {
 
         init();
         mIntent = getIntent();
-        mMeetingKey = mIntent.getStringExtra("MEETING_KEY");
-        mUserKey = mIntent.getStringExtra("USER_KEY");
+        if(mIntent.getData() != null){
+            Uri uri = mIntent.getData();
+            mMeetingKey = uri.getQueryParameter("MEETING_KEY");
+            mUserKey = "NueasP51ZCXmqkhcY60E";
+        }
+        else {
+            mMeetingKey = mIntent.getStringExtra("MEETING_KEY");
+            mUserKey = mIntent.getStringExtra("USER_KEY");
+        }
 
         getMeeting(mMeetingKey);
         getUser(mUserKey);
-
 
         mBtnLeave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +74,15 @@ public class ExistMeetingActivity extends AppCompatActivity {
                 HashMap<String,String> memberKeyPlace = meeting.getMemberKeyPlace();
                 memberKeyName.remove(mUserKey);
                 memberKeyPlace.remove(mUserKey);
-
-                updates.put("memberKeys", FieldValue.arrayRemove(mUserKey));
-                updates.put("memberKeyName", memberKeyName);
-                updates.put("memberKeyPlace", memberKeyPlace);
-                docRef.update(updates);
-                updates.clear();
+                if(memberKeyName.size() == 0)
+                    docRef.delete();
+                else {
+                    updates.put("memberKeys", FieldValue.arrayRemove(mUserKey));
+                    updates.put("memberKeyName", memberKeyName);
+                    updates.put("memberKeyPlace", memberKeyPlace);
+                    docRef.update(updates);
+                    updates.clear();
+                }
                 //user 업데이트
                 docRef = db.collection("User").document(mUserKey);
 
@@ -152,6 +161,5 @@ public class ExistMeetingActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }

@@ -9,9 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InputPlaceActivity"></activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ExistMeetingActivity" />
+        <activity android:name=".ShareMeetingActivity"></activity>
+        <activity android:name=".InputPlaceActivity" />
+        <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".ExistMeetingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="partyhere.com"
+                    android:scheme="http" />
+                <data
+                    android:host="partyhere.com"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity android:name=".InputTypeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />

@@ -107,16 +107,8 @@ public class InputTypeActivity extends AppCompatActivity {
 
                 docRefUser.update(updates);
 
-
-
-
-
-
-
-
-
-                //만든 방 화면으로 넘어간다.
-                intent = new Intent(getApplicationContext(), ExistMeetingActivity.class);
+                //만든 방 공유 화면으로 넘어간다.
+                intent = new Intent(getApplicationContext(), ShareMeetingActivity.class);
                 intent.putExtra("MEETING_KEY", MeetingKey);
                 intent.putExtra("USER_KEY", USER_KEY);
                 startActivity(intent);

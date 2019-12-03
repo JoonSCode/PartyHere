@@ -57,7 +57,6 @@ public class Tab1Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-
         mNewMeetingButton = root.findViewById(R.id.fragment_main_btn_new_meeting);
 
         mListView = root.findViewById(R.id.fragment_tab1_lv_meeting);

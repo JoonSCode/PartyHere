@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "625706127773-u9r7854vl1klh22s8heb5fmf4jsluv5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inhascp.partyhere",
+            "certificate_hash": "d5b7f0bbdaa3c129edfd1fe2c3ffa0ea29f50071"
+          }
+        },
+        {
           "client_id": "625706127773-nruk01e3o8o0v66slagpom6nvvpq71a7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
