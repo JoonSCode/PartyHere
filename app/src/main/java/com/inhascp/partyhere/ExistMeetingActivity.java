@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.dynamiclinks.DynamicLink;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -51,19 +49,21 @@ public class ExistMeetingActivity extends AppCompatActivity {
 
         init();
         mIntent = getIntent();
-        if(mIntent.getData() != null){
+        if(mIntent.getData() != null){//링크를 눌러서 접속한것   여기에 로그인 여부 확인후 돌아오기 처리해야함 intent에서 setresult인가 이거 쓰면 될듯
             Uri uri = mIntent.getData();
             mMeetingKey = uri.getQueryParameter("MEETING_KEY");
             mUserKey = "NueasP51ZCXmqkhcY60E";
+            System.out.println("링크를 통합 접속");
         }
-        else {
+        else {//그냥 내 모임 목록에서 선택한것
+            System.out.println("링크 눌러서 접속");
             mMeetingKey = mIntent.getStringExtra("MEETING_KEY");
             mUserKey = mIntent.getStringExtra("USER_KEY");
         }
 
         getMeeting(mMeetingKey);
         getUser(mUserKey);
-
+//모임 삭제 기능
         mBtnLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,11 +72,12 @@ public class ExistMeetingActivity extends AppCompatActivity {
 
                 HashMap<String,String> memberKeyName = meeting.getMemberKeyName();
                 HashMap<String,String> memberKeyPlace = meeting.getMemberKeyPlace();
+                //모임의 keyname값을 hashmap으로 받아오고 내 정보를 지운 후 size가 0 이면 db에서 모임을 제거함
                 memberKeyName.remove(mUserKey);
                 memberKeyPlace.remove(mUserKey);
                 if(memberKeyName.size() == 0)
                     docRef.delete();
-                else {
+                else {//size 0아닐 경우 갱신함
                     updates.put("memberKeys", FieldValue.arrayRemove(mUserKey));
                     updates.put("memberKeyName", memberKeyName);
                     updates.put("memberKeyPlace", memberKeyPlace);
