@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCwJC5mv4zJUn34czAsfO5V65y0lR0HT6g" />
+
+
         <activity android:name=".ShareMeetingActivity"></activity>
         <activity android:name=".InputPlaceActivity" />
         <activity android:name=".MainActivity">
