@@ -3,9 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/IDText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="ID"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/pwText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/activity_login_btn_sign_up"
@@ -20,6 +38,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="로그인" />
+
+
+
+
+
+
+
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -39,4 +64,14 @@
             android:text="사용자" />
 
     </RadioGroup>
+
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/com_kakao_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1" />
+
+
+
 </LinearLayout>
