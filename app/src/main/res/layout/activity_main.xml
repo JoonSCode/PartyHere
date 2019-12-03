@@ -11,7 +11,8 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/common_google_signin_btn_text_dark_default" />
+        android:background="@color/common_google_signin_btn_text_dark_default"
+        app:tabIndicatorColor="#0741AD" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
