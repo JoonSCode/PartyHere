@@ -2,16 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.inhascp.partyhere">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/partyhere_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/partyhere_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCwJC5mv4zJUn34czAsfO5V65y0lR0HT6g" />
+
+
         <activity android:name=".ShareMeetingActivity"></activity>
         <activity android:name=".InputPlaceActivity" />
         <activity android:name=".MainActivity">
+
+
+
 
         </activity>
         <activity android:name=".ExistMeetingActivity">
@@ -28,6 +39,9 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
         <activity android:name=".InputTypeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
