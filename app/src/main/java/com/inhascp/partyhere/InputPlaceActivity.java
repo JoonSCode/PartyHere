@@ -1,6 +1,7 @@
 package com.inhascp.partyhere;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,13 +30,14 @@ public class InputPlaceActivity extends AppCompatActivity
     public static InputPlaceActivity activity = null;
 
     private Button mBtnNext;
-    private TextView mTvPlace;
+    private EditText mTvPlace;
     private Intent mIntent;
     private String USER_KEY;
     private Button button;
-
+    private String position;
     private GoogleMap mMap;
     private Geocoder geocoder;
+
 
 
     @Override
@@ -47,10 +49,11 @@ public class InputPlaceActivity extends AppCompatActivity
 
         USER_KEY = "NueasP51ZCXmqkhcY60E";
         button = findViewById(R.id.search_place);
-        mBtnNext = findViewById(R.id.activity_input_place_btn_next);
+        mBtnNext =findViewById(R.id.activity_input_place_btn_next);
         mTvPlace = findViewById(R.id.activity_input_place_et_place);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +61,7 @@ public class InputPlaceActivity extends AppCompatActivity
                 mIntent = new Intent(getApplicationContext(), InputTypeActivity.class);
                 mIntent.putExtra("Place", mTvPlace.getText().toString());
                 mIntent.putExtra("USER_KEY", USER_KEY);
+                mIntent.putExtra("Position",position);
                 startActivity(mIntent);
             }
         });
@@ -82,7 +86,7 @@ public class InputPlaceActivity extends AppCompatActivity
                 // LatLng: 위도 경도 쌍을 나타냄
                 mOptions.position(new LatLng(latitude, longitude));
                 // 마커(핀) 추가
-                googleMap.addMarker(mOptions);
+
             }
         });
         ////////////////////
@@ -112,6 +116,14 @@ public class InputPlaceActivity extends AppCompatActivity
                 String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
 
                 String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
+
+                position=latitude+"/"+longitude;
+                //latititude 랑 longitutude이용해서 하나의 string 으로 .그리고 mIntent.putExtra("Place", 스트링.getText().toString());
+                //으로 InputTypeActivity에 준다음에
+                //InputTypeActivity에서 mUserPlace로 받음 그러고 db에 넣는다.(?)
+
+
+
                 System.out.println(latitude);
                 System.out.println(longitude);
 
@@ -128,6 +140,10 @@ public class InputPlaceActivity extends AppCompatActivity
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
             }
         });
+        LatLng seoul = new LatLng(37.56, 126.97);
+        mMap.addMarker(new MarkerOptions().position(seoul).title("Marker in Seoul"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
+
     }
 }
 

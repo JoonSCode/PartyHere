@@ -41,6 +41,8 @@ public class InputTypeActivity extends AppCompatActivity {
     private Intent intent;
     private String mUserName;
     private String mUserPlace;
+    private String mPosition;
+
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class InputTypeActivity extends AppCompatActivity {
                 List<String> mMemberKeys = new ArrayList<>();
                 HashMap<String,String> mMemberKeyName = new HashMap<>();
                 HashMap<String,String> mMemberKeyPlace = new HashMap<>();
-
+                HashMap<String,String> mMemberKeyPosition=new HashMap<>();
                 //체크 박스를 통해 모임 성격 값을 준다.
                 if(mTypeStudyCheckBox.isChecked())
                     mType.add(mTypeStudyCheckBox.getText().toString());
@@ -89,9 +91,9 @@ public class InputTypeActivity extends AppCompatActivity {
                 mMemberKeys.add(USER_KEY);
                 mMemberKeyPlace.put(USER_KEY,mUserPlace);
                 mMemberKeyName.put(USER_KEY, mUserName);
-
+                mMemberKeyPosition.put(USER_KEY,mPosition);
                 //meeting 객체를 만들어 db에 추가
-                Meeting meeting = new Meeting(mType, mMemberKeys, mMemberKeyPlace, new HashMap<String, String>(), mMemberKeyName);
+                Meeting meeting = new Meeting(mType, mMemberKeys, mMemberKeyPlace, new HashMap<String, String>(), mMemberKeyName,mMemberKeyPosition);
                 String MeetingKey = db.collection("Meeting").document().getId();
                 db.collection("Meeting").document(MeetingKey).set(meeting);
 
@@ -122,6 +124,7 @@ public class InputTypeActivity extends AppCompatActivity {
     protected void init(){
         mUserPlace = getIntent().getStringExtra("Place");
         USER_KEY = getIntent().getStringExtra("USER_KEY");
+        mPosition=getIntent().getStringExtra("Position");
         mTypeStudyCheckBox = findViewById(R.id.activity_new_meeting_cb_study);
         mTypeTalkCheckBox = findViewById(R.id.activity_new_meeting_cb_talk);
         mTypeEat = findViewById(R.id.activity_new_meeting_cb_eat);

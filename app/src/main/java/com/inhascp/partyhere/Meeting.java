@@ -9,16 +9,19 @@ public class Meeting {
     private HashMap<String,String> memberKeyPlace;
     private HashMap<String,String> recommendPlace;
     private HashMap<String,String> memberKeyName;
+    private HashMap<String,String> memberKeyPosition;
 
     public Meeting() {
     }
 
-    public Meeting(List<String> meetingType, List<String> memberKeys, HashMap<String, String> memberKeyPlace, HashMap<String, String> recommendPlace, HashMap<String, String> memberKeyName) {
+    public Meeting(List<String> meetingType, List<String> memberKeys, HashMap<String, String> memberKeyPlace, HashMap<String, String> recommendPlace, HashMap<String, String> memberKeyName, HashMap<String,String> memberKeyPosition) {
         this.meetingType = meetingType;
         this.memberKeys = memberKeys;
         this.memberKeyPlace = memberKeyPlace;
         this.recommendPlace = recommendPlace;
         this.memberKeyName = memberKeyName;
+        this.memberKeyPosition=memberKeyPosition;
+
     }
 
     public List<String> getMeetingType() {
@@ -40,4 +43,9 @@ public class Meeting {
     public HashMap<String, String> getMemberKeyName() {
         return memberKeyName;
     }
+
+    public HashMap<String, String> getMemberKeyPosition() {
+        return memberKeyPosition;
+    }
+
 }
