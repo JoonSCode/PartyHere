@@ -3,75 +3,239 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
-    <EditText
-        android:id="@+id/IDText"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="ID"
-        android:inputType="textEmailAddress" />
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_weight="0.3">
 
-    <EditText
-        android:id="@+id/pwText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/activity_login_btn_sign_up"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="회원가입" />
-
-    <Button
-        android:id="@+id/activity_login_btn_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="로그인" />
-
-
-
-
-
-
-
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <RadioButton
-            android:id="@+id/activity_login_rb_business"
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="사업자" />
+            android:layout_height="match_parent"
+            app:srcCompat="@mipmap/partyhere_logo" />
 
-        <RadioButton
-            android:id="@+id/activity_login_rb_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="사용자" />
+    </FrameLayout>
 
-    </RadioGroup>
-
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/com_kakao_login"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0">
 
-        android:layout_weight="1" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp">
 
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/activity_login_rb_business"
+                    style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#DDD9D9"
+                    android:button="null"
+                    android:fontFamily="serif-monospace"
+                    android:padding="5dp"
+                    android:text="사업자" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/activity_login_rb_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top|center_vertical"
+                    android:background="#0741AD "
+                    android:button="null"
+                    android:fontFamily="serif-monospace"
+                    android:paddingLeft="7.5dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="7.5dp"
+                    android:paddingBottom="5dp"
+                    android:text="일 반"
+                    android:textColor="#FFFFFF" />
+            </FrameLayout>
+
+        </RadioGroup>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="0.05">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/under_line"
+                android:orientation="horizontal"
+                android:paddingTop="25dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:paddingBottom="10dp">
+
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/email_icon" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/activity_login_et_id"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:background="null"
+                        android:ems="10"
+                        android:inputType="textEmailAddress"
+                        tools:text="asd" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/under_line"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:paddingBottom="10dp">
+
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/password_icon" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/activity_login_et_pw"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:background="null"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:textSize="24sp"
+                        tools:text="asd" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_weight="0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp">
+
+            <Button
+                android:id="@+id/activity_login_btn_sign_up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="#DDD9D9"
+                android:shadowColor="#00FDFDFD"
+                android:text="이메일로 시작하기"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="#EFE600"
+                android:text="카카오톡으로 시작하기"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/activity_login_btn_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#0741AD "
+                android:text="로그인"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15">
+
+    </FrameLayout>
 
 
 </LinearLayout>

@@ -1,17 +1,14 @@
 package com.inhascp.partyhere;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.EditText;
 
-import android.location.Address;
-import android.location.Geocoder;
-import android.net.Uri;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +46,7 @@ public class InputPlaceActivity extends AppCompatActivity
         button = findViewById(R.id.search_place);
         mBtnNext = findViewById(R.id.activity_input_place_btn_next);
         mTvPlace = findViewById(R.id.activity_input_place_et_place);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
