@@ -202,6 +202,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                     }*/
+
+
+
                     Map<String, Object> user = new HashMap<>();
                     user.put("nickName", "남현우");
 

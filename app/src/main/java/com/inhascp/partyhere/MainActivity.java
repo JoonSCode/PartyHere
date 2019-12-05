@@ -20,7 +20,8 @@ import static android.content.Intent.ACTION_VIEW;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button logout_but;
+    private Button logout_but;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         logout_but = findViewById(R.id.logout_but);
+
 
         logout_but.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -63,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void onClickLogout() {
+
+
+
         UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
             @Override
             public void onCompleteLogout() {

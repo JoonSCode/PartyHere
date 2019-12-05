@@ -3,6 +3,7 @@ package com.inhascp.partyhere;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,13 +13,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.kakao.auth.Session;
 
 import java.util.HashMap;
 
@@ -37,6 +43,9 @@ public class ExistMeetingActivity extends AppCompatActivity {
     private String mMeetingKey;
     private String mUserKey;
     private Intent mIntent;
+
+    private Button mBtnInvite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,19 @@ public class ExistMeetingActivity extends AppCompatActivity {
             mMeetingKey = uri.getQueryParameter("MEETING_KEY");
             mUserKey = "NueasP51ZCXmqkhcY60E";
             System.out.println("링크를 통합 접속");
+
+
+            //로그인 상태 판단 - 카톡
+            if(Session.getCurrentSession().isClosed()){
+
+                System.out.println("로그아웃 상태");
+                Intent intent =  new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                System.out.println("로그인 상태");
+            }
         }
         else {//그냥 내 모임 목록에서 선택한것
             System.out.println("링크 눌러서 접속");
@@ -99,6 +121,53 @@ public class ExistMeetingActivity extends AppCompatActivity {
             }
         });
 
+
+        mBtnLeave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+
+        });
+
+
+
+        ////////////////////////////////////////////
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+
+                        System.out.println("다이나믹 링크 석세스");
+
+
+                        // Handle the deep link. For example, open the linked
+                        // content, or apply promotional credit to the user's
+                        // account.
+                        // ...
+
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("dym", "getDynamicLink:onFailure", e);
+                    }
+                });
+
+
+
+
+
+
+
     }
 
     protected void init(){
@@ -107,6 +176,9 @@ public class ExistMeetingActivity extends AppCompatActivity {
         mTvRecommend = findViewById(R.id.activity_exist_meeting_textview_recommend);
         mTvType = findViewById(R.id.activity_exist_meeting_textview_type);
         mBtnLeave = findViewById(R.id.activity_exist_meeting_btn_leave);
+
+        mBtnInvite = findViewById(R.id.activity_exist_invite_btn);
+
         db = FirebaseFirestore.getInstance();
     }
 
@@ -157,10 +229,16 @@ public class ExistMeetingActivity extends AppCompatActivity {
                         user = document.toObject(User.class);
                     } else {
                     }
-                } else {
+                }
+                else {
                 }
             }
         });
     }
+
+
+
+
+
 
 }
