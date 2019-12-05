@@ -18,12 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -47,11 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mSignUpButton;
     private Intent mIntent;
 
-
     private FirebaseFirestore db;
-    final Context mContext = this;
-
-
 
 
     private Button btn_custom_login;
@@ -65,17 +58,20 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordText;
 
     private FirebaseAuth mAuth;
-
-
     private SessionCallback callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        db  = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
         mSignInButton = findViewById(R.id.activity_login_btn_sign_in);
         mSignUpButton= findViewById(R.id.activity_login_btn_sign_up);
-
+        IDText = findViewById(R.id.activity_login_et_id);
+        passwordText = findViewById(R.id.activity_login_et_pw);
 
 
         callback = new SessionCallback();
@@ -83,43 +79,22 @@ public class LoginActivity extends AppCompatActivity {
         Session.getCurrentSession().checkAndImplicitOpen();
 
 
-        db  = FirebaseFirestore.getInstance();
-        mSignInButton = findViewById(R.id.activity_login_btn_sign_in);
-        mSignUpButton = findViewById(R.id.activity_login_btn_sign_up);
-        IDText = findViewById(R.id.IDText);
-        passwordText = findViewById(R.id.pwText);
-
-        mAuth = FirebaseAuth.getInstance();
-
-
         mSignInButton.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View view) {
-
-                                                 signIn(view);
-
-                                             }
-                                         }
-
-        );
+            @Override
+            public void onClick(View view) {
+                signIn(view);
+            }
+        });
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View view) {
-
-                                                 signUp(view);
-
-                                             }
-                                         }
-
-        );
+            @Override
+            public void onClick(View view) {
+                signUp(view);
+            }
+        });
 
 
         getHashKey(getApplicationContext());
-
-
-
-
 
 
     }
@@ -176,8 +151,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     System.out.println("email: " + response.getKakaoAccount().getEmail());
 
-                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                    intent.putExtra("userID", userID);
+                    mIntent = new Intent(getApplicationContext(),LoginActivity.class);
+                    mIntent.putExtra("userID", userID);
 
                     /*public void requestProfile() {
 
@@ -257,12 +232,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void signUp(View v){
 
+        mIntent = new Intent(getApplicationContext(),SignUpActivity.class);
+        startActivity(mIntent);
 
-        String id = IDText.getText().toString();
-        String ps = passwordText.getText().toString();
 
-
-        createUser(id, ps);
+//        String id = IDText.getText().toString();
+//        String ps = passwordText.getText().toString();
+//
+//
+//        createUser(id, ps);
 
 
     }
@@ -276,17 +254,13 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
 
                             String email_ = email;
 
-                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             intent.putExtra("email",email_);
                             startActivity(intent);
-
-
-
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -299,7 +273,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     public void createUser(String email, String password) {
 
@@ -317,13 +290,11 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                 });
 
     }
-
 
 
 
@@ -334,7 +305,6 @@ public class LoginActivity extends AppCompatActivity {
         try {
             PackageInfo info =
                     context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
-
             for (Signature signature : info.signatures) {
                 MessageDigest md;
                 md = MessageDigest.getInstance("SHA");
@@ -347,12 +317,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("name not found", e.toString());
         }
 
-
-
         return keyHash;
-
-
-
     }
 
 
