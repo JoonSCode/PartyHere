@@ -229,12 +229,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void signUp(View v){
 
+        mIntent = new Intent(getApplicationContext(),SignUpActivity.class);
+        startActivity(mIntent);
 
-        String id = IDText.getText().toString();
-        String ps = passwordText.getText().toString();
 
-
-        createUser(id, ps);
+//        String id = IDText.getText().toString();
+//        String ps = passwordText.getText().toString();
+//
+//
+//        createUser(id, ps);
 
 
     }

@@ -29,7 +29,7 @@ public class InputPlaceActivity extends AppCompatActivity
     private TextView mTvPlace;
     private Intent mIntent;
     private String USER_KEY;
-    private Button button;
+    private Button mBtnSearch;
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -39,16 +39,15 @@ public class InputPlaceActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_place);
-
         activity = this;
 
         USER_KEY = "NueasP51ZCXmqkhcY60E";
-        button = findViewById(R.id.search_place);
-        mBtnNext = findViewById(R.id.activity_input_place_btn_next);
-        mTvPlace = findViewById(R.id.activity_input_place_et_place);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        mBtnSearch = findViewById(R.id.activity_input_place_btn_search_place);
+        mBtnNext = findViewById(R.id.activity_input_place_btn_next);
+        mTvPlace = findViewById(R.id.activity_input_place_et_place);
 
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +64,7 @@ public class InputPlaceActivity extends AppCompatActivity
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         geocoder = new Geocoder(this);
+        System.out.println("지도 준비 완료");
 
         // 맵 터치 이벤트 구현 //
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
@@ -86,9 +86,10 @@ public class InputPlaceActivity extends AppCompatActivity
         ////////////////////
 
         // 버튼 이벤트
-        button.setOnClickListener(new Button.OnClickListener(){
+        mBtnSearch.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v){
+                System.out.println("검색 버튼 눌림");
                 String str=mTvPlace.getText().toString();
                 List<Address> addressList = null;
                 try {
