@@ -32,7 +32,7 @@ import java.util.ArrayList;
  */
 public class Tab1Fragment extends Fragment {
 
-    static final String KEY = "NueasP51ZCXmqkhcY60E";//userkey
+    static final String USER_KEY = "NueasP51ZCXmqkhcY60E";//userkey
 
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -61,7 +61,7 @@ public class Tab1Fragment extends Fragment {
         mListView = root.findViewById(R.id.fragment_tab1_lv_meeting);
         mListViewAdapter = new ListViewAdapter();
 
-        db.collection("User").document(KEY).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        db.collection("User").document(USER_KEY).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -94,7 +94,7 @@ public class Tab1Fragment extends Fragment {
 
                 mIntent = new Intent(getContext(), ExistMeetingActivity.class);
                 mIntent.putExtra("MEETING_KEY", item.getmMeetingKey());
-                mIntent.putExtra("USER_KEY", KEY);
+                mIntent.putExtra("USER_KEY", USER_KEY);
                 startActivity(mIntent);
             }
         }) ;

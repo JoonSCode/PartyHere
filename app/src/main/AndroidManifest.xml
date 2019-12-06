@@ -14,7 +14,7 @@
          //구글 맵 api키
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCwJC5mv4zJUn34czAsfO5V65y0lR0HT6g" />
+            android:value="AIzaSyCtv4ID5FMf43CdIwEwvrNTx32wdWqNnZ4" />
 
 
         <activity android:name=".ShareMeetingActivity"></activity>
@@ -35,6 +35,17 @@
                     android:host="partyhere.com"
                     android:scheme="https" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="partyhere.com/invite"
+                    android:scheme="https"/>
+            </intent-filter>
+
+
         </activity>
         <activity android:name=".InputTypeActivity" />
         <activity android:name=".SignUpActivity" />
@@ -49,6 +60,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
     </application>
 
 </manifest>

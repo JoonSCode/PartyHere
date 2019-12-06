@@ -64,6 +64,13 @@
         android:textSize="24sp" />
 
     <Button
+        android:id="@+id/activity_exist_invite_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="초대 코드" />
+
+    <Button
         android:id="@+id/activity_exist_meeting_btn_leave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
