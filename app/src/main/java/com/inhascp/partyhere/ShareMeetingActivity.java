@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +21,9 @@ public class ShareMeetingActivity extends AppCompatActivity {
     private String MEETING_KEY;
     private String USER_KEY;
 
+    private Button mBtnNext;
+    private TextView mTvShowLink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +32,33 @@ public class ShareMeetingActivity extends AppCompatActivity {
         init();
 
         generateContentLink();
-        Intent intent = new Intent(getApplicationContext(), ExistMeetingActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), ExistMeetingActivity.class);
         intent.putExtra("MEETING_KEY", MEETING_KEY);
         intent.putExtra("USER_KEY", USER_KEY);
-        startActivity(intent);
-        finish();
+
+        mTvShowLink.setText("https://partyhere.com?MEETING_KEY="+MEETING_KEY);
+
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+
+
+
     }
 
     protected void init(){
         MEETING_KEY = getIntent().getStringExtra("MEETING_KEY");
         USER_KEY = getIntent().getStringExtra("USER_KEY");
+
+        mBtnNext = findViewById(R.id.activity_share_meeting_toNext);
+        mTvShowLink = findViewById(R.id.activity_share_meeting_linkView);
     }
 
     public void generateContentLink() {
