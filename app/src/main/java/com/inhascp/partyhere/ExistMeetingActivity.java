@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 
+
 public class ExistMeetingActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
@@ -32,6 +34,7 @@ public class ExistMeetingActivity extends AppCompatActivity {
 
     private Meeting meeting;
     private User user;
+
 
     private Button mBtnLeave;
     private String mMeetingKey;
@@ -99,6 +102,11 @@ public class ExistMeetingActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void changePosition(View v) {
+        Intent intent = new Intent(getApplicationContext(), ChangePosition.class);
+
+        startActivity(intent);
     }
 
     protected void init(){

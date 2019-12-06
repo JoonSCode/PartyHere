@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+         //구글 맵 api키
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCwJC5mv4zJUn34czAsfO5V65y0lR0HT6g" />
@@ -38,6 +39,7 @@
         <activity android:name=".InputTypeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ChangePosition"/>
         <activity
             android:name=".Splash"
             android:theme="@style/SplashTheme">

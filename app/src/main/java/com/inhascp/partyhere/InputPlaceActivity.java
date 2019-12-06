@@ -28,14 +28,14 @@ import java.util.List;
 public class InputPlaceActivity extends AppCompatActivity
         implements OnMapReadyCallback {
     public static InputPlaceActivity activity = null;
-
+    private MarkerOptions mOptions2;
     private Button mBtnNext;
     private EditText mTvPlace;
     private Intent mIntent;
     private String USER_KEY;
     private Button button;
     private String position;
-    private GoogleMap mMap;
+    public GoogleMap mMap;
     private Geocoder geocoder;
 
 
@@ -71,25 +71,6 @@ public class InputPlaceActivity extends AppCompatActivity
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         geocoder = new Geocoder(this);
-
-        // 맵 터치 이벤트 구현 //
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-            @Override
-            public void onMapClick(LatLng point) {
-                MarkerOptions mOptions = new MarkerOptions();
-                // 마커 타이틀
-                mOptions.title("마커 좌표");
-                Double latitude = point.latitude; // 위도
-                Double longitude = point.longitude; // 경도
-                // 마커의 스니펫(간단한 텍스트) 설정
-                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
-                // LatLng: 위도 경도 쌍을 나타냄
-                mOptions.position(new LatLng(latitude, longitude));
-                // 마커(핀) 추가
-
-            }
-        });
-        ////////////////////
 
         // 버튼 이벤트
         button.setOnClickListener(new Button.OnClickListener(){
@@ -130,7 +111,7 @@ public class InputPlaceActivity extends AppCompatActivity
                 // 좌표(위도, 경도) 생성
                 LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                 // 마커 생성
-                MarkerOptions mOptions2 = new MarkerOptions();
+                mOptions2 = new MarkerOptions();
                 mOptions2.title("search result");
                 mOptions2.snippet(address);
                 mOptions2.position(point);

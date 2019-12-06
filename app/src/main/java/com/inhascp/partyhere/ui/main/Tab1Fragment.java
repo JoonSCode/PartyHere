@@ -22,7 +22,6 @@ import com.inhascp.partyhere.ExistMeetingActivity;
 import com.inhascp.partyhere.InputPlaceActivity;
 import com.inhascp.partyhere.ListViewAdapter;
 import com.inhascp.partyhere.MeetingListItem;
-import com.inhascp.partyhere.InputTypeActivity;
 import com.inhascp.partyhere.R;
 import com.inhascp.partyhere.User;
 

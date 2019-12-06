@@ -38,6 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:clickable="true"
+                android:onClick="changePosition"
                 android:text="출발위치"
                 android:textSize="24sp" />
         </FrameLayout>
