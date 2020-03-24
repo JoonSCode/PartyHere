@@ -1,14 +1,18 @@
 package com.inhascp.partyhere;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,30 +28,32 @@ import java.util.List;
 public class InputPlaceActivity extends AppCompatActivity
         implements OnMapReadyCallback {
     public static InputPlaceActivity activity = null;
-
+    private MarkerOptions mOptions2;
     private Button mBtnNext;
-    private TextView mTvPlace;
+    private EditText mTvPlace;
     private Intent mIntent;
     private String USER_KEY;
-    private Button mBtnSearch;
-
-    private GoogleMap mMap;
+    private Button button;
+    private String position;
+    public GoogleMap mMap;
     private Geocoder geocoder;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_place);
+
         activity = this;
 
         USER_KEY = "NueasP51ZCXmqkhcY60E";
-
+        button = findViewById(R.id.search_place);
+        mBtnNext =findViewById(R.id.activity_input_place_btn_next);
+        mTvPlace = findViewById(R.id.activity_input_place_et_place);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mBtnSearch = findViewById(R.id.activity_input_place_btn_search_place);
-        mBtnNext = findViewById(R.id.activity_input_place_btn_next);
-        mTvPlace = findViewById(R.id.activity_input_place_et_place);
+        mapFragment.getMapAsync(this);
 
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +61,7 @@ public class InputPlaceActivity extends AppCompatActivity
                 mIntent = new Intent(getApplicationContext(), InputTypeActivity.class);
                 mIntent.putExtra("Place", mTvPlace.getText().toString());
                 mIntent.putExtra("USER_KEY", USER_KEY);
+                mIntent.putExtra("Position",position);
                 startActivity(mIntent);
             }
         });
@@ -64,32 +71,11 @@ public class InputPlaceActivity extends AppCompatActivity
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         geocoder = new Geocoder(this);
-        System.out.println("지도 준비 완료");
-
-        // 맵 터치 이벤트 구현 //
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-            @Override
-            public void onMapClick(LatLng point) {
-                MarkerOptions mOptions = new MarkerOptions();
-                // 마커 타이틀
-                mOptions.title("마커 좌표");
-                Double latitude = point.latitude; // 위도
-                Double longitude = point.longitude; // 경도
-                // 마커의 스니펫(간단한 텍스트) 설정
-                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
-                // LatLng: 위도 경도 쌍을 나타냄
-                mOptions.position(new LatLng(latitude, longitude));
-                // 마커(핀) 추가
-                googleMap.addMarker(mOptions);
-            }
-        });
-        ////////////////////
 
         // 버튼 이벤트
-        mBtnSearch.setOnClickListener(new Button.OnClickListener(){
+        button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v){
-                System.out.println("검색 버튼 눌림");
                 String str=mTvPlace.getText().toString();
                 List<Address> addressList = null;
                 try {
@@ -111,13 +97,21 @@ public class InputPlaceActivity extends AppCompatActivity
                 String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
 
                 String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
+
+                position=latitude+"/"+longitude;
+                //latititude 랑 longitutude이용해서 하나의 string 으로 .그리고 mIntent.putExtra("Place", 스트링.getText().toString());
+                //으로 InputTypeActivity에 준다음에
+                //InputTypeActivity에서 mUserPlace로 받음 그러고 db에 넣는다.(?)
+
+
+
                 System.out.println(latitude);
                 System.out.println(longitude);
 
                 // 좌표(위도, 경도) 생성
                 LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                 // 마커 생성
-                MarkerOptions mOptions2 = new MarkerOptions();
+                mOptions2 = new MarkerOptions();
                 mOptions2.title("search result");
                 mOptions2.snippet(address);
                 mOptions2.position(point);
@@ -127,6 +121,10 @@ public class InputPlaceActivity extends AppCompatActivity
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
             }
         });
+        LatLng seoul = new LatLng(37.56, 126.97);
+        mMap.addMarker(new MarkerOptions().position(seoul).title("Marker in Seoul"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
+
     }
 }
 
