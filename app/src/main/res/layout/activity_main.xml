@@ -4,25 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
-    <Button
-        android:id="@+id/logout_but"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="logout" />
+        android:background="@drawable/under_line_black"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="#000000">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="MeetingList"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="5dp">
+
+            <ImageButton
+                android:id="@+id/logout_btn"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center|right|left"
+                android:background="#FFFFFF"
+                android:scaleType="centerInside"
+                android:src="@drawable/logout_icon" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp">
+
+            <ImageButton
+                android:id="@+id/activity_main_btn_new_meeting"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/plus_icon_2" />
+        </FrameLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ListView
+        android:id="@+id/activity_main_lv_meeting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/common_google_signin_btn_text_dark_default"
-        app:tabIndicatorColor="#0741AD" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="@dimen/appbar_padding"
+        android:background="#FFFFFF">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    </ListView>
 
 </LinearLayout>

@@ -24,4 +24,14 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+
+    <style name="SpinnerDivideStyle" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:divider">#B4B4B4</item> <!-- divider 색 -->
+        <item name="android:dividerHeight">1dp</item> <!-- divider 높이 -->
+    </style>
+
+    <style name="SpinnerTheme" parent="AppTheme">
+        <item name="android:dropDownListViewStyle">@style/SpinnerDivideStyle</item>
+    </style>
+
 </resources>

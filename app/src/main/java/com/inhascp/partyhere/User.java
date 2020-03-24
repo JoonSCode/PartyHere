@@ -10,6 +10,10 @@ public class User {
     private String nickName;
 
     public User() {
+        bookmarkPosition = new ArrayList<>();
+        meetingKeys = new ArrayList<>();
+        meetingTitle = new HashMap<>();
+        nickName = "";
     }
 
     public User(ArrayList<String> bookmarkPosition, ArrayList<String> meetingKeys, HashMap<String, String> meetingTitle, String nickName) {

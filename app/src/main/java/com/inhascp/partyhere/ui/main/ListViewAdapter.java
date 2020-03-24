@@ -1,4 +1,4 @@
-package com.inhascp.partyhere;
+package com.inhascp.partyhere.ui.main;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.inhascp.partyhere.R;
 
 import java.util.ArrayList;
 
@@ -33,19 +35,19 @@ public class ListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.fragment_tab1_meeting_list, parent, false);
+            convertView = inflater.inflate(R.layout.fragment_main_meeting_list, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView titleTextView = convertView.findViewById(R.id.fragment_tab1_meeting_list_meeting_name) ;
-
+        TextView numOfPerson = convertView.findViewById(R.id.fragment_tab1_meeting_list_meeting_person_cnt) ;
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         MeetingListItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
 
         titleTextView.setText(listViewItem.getmName());
-
+        numOfPerson.setText(Integer.toString(listViewItem.getmNumOfPerson()));
         return convertView;
     }
 
@@ -62,12 +64,12 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String desc) {
+    public void addItem(String title, String MEETING_KEY, Integer person_cnt) {
         MeetingListItem item = new MeetingListItem();
 
         item.setmName(title);
-        item.setmMeetingKey(desc);
-
+        item.setmMeetingKey(MEETING_KEY);
+        item.setmNumOfPerson(person_cnt);
         listViewItemList.add(item);
     }
     public void clear(){

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ExistMeetingActivity">
+    tools:context=".ExistMeetingActivityBackup">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,6 +60,20 @@
         android:gravity="center"
         android:text="추천 장소"
         android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/activity_exist_meeting_get_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="링크 얻기" />
+
+    <Button
+        android:id="@+id/activity_exist_meeting_btn_calculate_travel_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="상권 추리기" />
 
     <Button
         android:id="@+id/activity_exist_meeting_btn_leave"

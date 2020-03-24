@@ -1,4 +1,4 @@
-package com.inhascp.partyhere;
+package com.inhascp.partyhere.login;
 
 import android.content.Context;
 

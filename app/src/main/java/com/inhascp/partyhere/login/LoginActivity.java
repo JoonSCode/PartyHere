@@ -1,4 +1,4 @@
-package com.inhascp.partyhere;
+package com.inhascp.partyhere.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.inhascp.partyhere.R;
+import com.inhascp.partyhere.User;
+import com.inhascp.partyhere.ui.main.MainActivity;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -33,32 +39,29 @@ import com.kakao.util.exception.KakaoException;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
 
     private Button mSignInButton;
     private Button mSignUpButton;
+    private Button mCustomKakaoButton;
     private Intent mIntent;
 
     private FirebaseFirestore db;
 
+    private LoginButton mKakaoLoginButton;
 
-    private Button btn_custom_login;
-    private LoginButton btn_kakao_login;
-
-
+    public static String USER_KEY;
 
 
-
-    EditText IDText;
-    EditText passwordText;
+    private EditText IDText;
+    private EditText passwordText;
 
     private FirebaseAuth mAuth;
     private SessionCallback callback;
+    private Boolean isLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +71,15 @@ public class LoginActivity extends AppCompatActivity {
         db  = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        isLink = false;
         mSignInButton = findViewById(R.id.activity_login_btn_sign_in);
         mSignUpButton= findViewById(R.id.activity_login_btn_sign_up);
         IDText = findViewById(R.id.activity_login_et_id);
         passwordText = findViewById(R.id.activity_login_et_pw);
+        mCustomKakaoButton = findViewById(R.id.activity_login_btn_kakao);
+        mKakaoLoginButton = findViewById(R.id.btn_kakao_login);
+
+
 
 
         callback = new SessionCallback();
@@ -93,29 +101,58 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         getHashKey(getApplicationContext());
 
+        mCustomKakaoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mKakaoLoginButton.performClick();
+            }
+        });
 
     }
 
-    protected void redirectMainActivity() {
-        final Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+
+
+    protected void redirectMainActivity(boolean in) {
+        mIntent = new Intent(this, MainActivity.class);
+        Intent intent2 = new Intent(this, InformAccActivity.class);
+        if(getIntent() != null){
+            System.out.println("링크!!");
+            mIntent.putExtra("MEETING_KEY",getIntent().getStringExtra("MEETING_KEY"));
+        }
+
+
+        if(in){
+            System.out.println("기존 유저는 메인으로 라이츄");
+            startActivity(mIntent);
+
+        }
+        else{
+            System.out.println("신규 유저는 닉넴입력으로 라이츄");
+            mIntent = new Intent(this, InformAccActivity.class);
+            startActivity(mIntent);
+
+        }
+
         finish();
     }
+
 
     public class SessionCallback implements ISessionCallback {
 
         // 로그인에 성공한 상태
         @Override
         public void onSessionOpened() {
+            System.out.println("opened");
+
             requestMe();
         }
-
         // 로그인에 실패한 상태
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
+            System.out.println("failed");
+
             Log.e("SessionCallback :: ", "onSessionOpenFailed : " + exception.getMessage());
         }
 
@@ -143,16 +180,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 // 사용자정보 요청에 성공한 경우,
                 @Override
-                public void onSuccess(MeV2Response response) {
+                public void onSuccess(final MeV2Response response) {
 
-                    long userID = response.getId(); //어플에 할당되는 카톡계정당 유저 아이디
+                    USER_KEY = String.valueOf(response.getId()); //어플에 할당되는 카톡계정당 유저 아이디
 
-                    System.out.println("user id : " + userID);
+                    System.out.println("user id : " + USER_KEY);
 
                     System.out.println("email: " + response.getKakaoAccount().getEmail());
 
-                    mIntent = new Intent(getApplicationContext(),LoginActivity.class);
-                    mIntent.putExtra("userID", userID);
+
+
 
                     /*public void requestProfile() {
 
@@ -177,15 +214,46 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                     }*/
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("nickName", "남현우");
-
-                    user.put("userID", response.getId());
-
-                    db.collection("User").document(String.valueOf(response.getId())).set(user);
 
 
-                    redirectMainActivity();
+                    final boolean[] alreadyIn = {false};
+
+                    DocumentReference userRef = db.collection("User").document(USER_KEY); //유저 확인
+                    userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) { //가입 이미 되어있음
+
+                                    alreadyIn[0] = true;
+
+                                    System.out.println("기존 유저 라이츄");
+                                    redirectMainActivity(alreadyIn[0]);
+                                } else {//안되어있음
+                                    alreadyIn[0] = false;
+                                    User user =new User();
+
+                                    db.collection("User").document(USER_KEY).set(user);
+
+                                    System.out.println("신규 유저 라이츄");
+                                    redirectMainActivity(alreadyIn[0]);
+                                }
+
+
+
+
+                            } else {
+                                Log.d("에러", "get failed with ", task.getException());
+                            }
+                        }
+                    });
+
+
+
+
+
+
                 }
 
                 // 사용자 정보 요청 실패
@@ -204,6 +272,16 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) { // 이메일 회원가입 - signup액티비에서 돌아온 것 처리.
+            if (resultCode == RESULT_OK) {
+
+                loginUser(data.getStringExtra("email"),data.getStringExtra("password"),false);
+
+            } else {   // RESULT_CANCEL
+                Toast.makeText(LoginActivity.this, "이메일 회원가입 실패", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     @Override
     protected void onDestroy() {
@@ -215,34 +293,25 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
-
     public void signIn(View v){
 
         String id = IDText.getText().toString();
         String ps = passwordText.getText().toString();
 
 
-        loginUser(id, ps);
+        loginUser(id, ps, true);
 
     }
 
     public void signUp(View v){
 
         mIntent = new Intent(getApplicationContext(),SignUpActivity.class);
-        startActivity(mIntent);
-
-
-//        String id = IDText.getText().toString();
-//        String ps = passwordText.getText().toString();
-//
-//
-//        createUser(id, ps);
-
+        startActivityForResult(mIntent,1);
 
     }
 
-    public void loginUser(final String email, String password) {
+    //이메일로 로그인
+    public void loginUser(final String email, String password, final boolean alreadyIn) {
 
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -253,11 +322,44 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
 
-                            String email_ = email;
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            USER_KEY =  currentUser.getUid();
 
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            intent.putExtra("email",email_);
-                            startActivity(intent);
+
+
+
+
+                            DocumentReference userRef = db.collection("User").document(USER_KEY); //유저 확인
+                            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) { //가입처리 이미 되어있음
+
+
+
+                                            System.out.println("기존 유저 라이츄 꼬북이");
+                                            redirectMainActivity(alreadyIn);
+                                        } else {//안되어있음
+                                            User user = new User();
+
+                                            db.collection("User").document(USER_KEY).set(user);
+
+
+                                            System.out.println("신규 유저 라이츄 꼬북이");
+                                            redirectMainActivity(alreadyIn);
+                                        }
+
+
+
+
+                                    } else {
+                                        Log.d("에러", "get failed with ", task.getException());
+                                    }
+                                }
+                            });
+
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -271,27 +373,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void createUser(String email, String password) {
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(LoginActivity.this, R.string.success_signup, Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(getApplicationContext(),SignUpActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                });
-
-    }
 
 
 
@@ -307,7 +391,7 @@ public class LoginActivity extends AppCompatActivity {
                 md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 keyHash = new String(Base64.encode(md.digest(), 0));
-                System.out.println("키는:" +keyHash);
+                //System.out.println("키는:" +keyHash);
                 Log.d(TAG, keyHash);
             }
         } catch (Exception e) {

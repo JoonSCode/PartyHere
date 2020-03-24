@@ -4,31 +4,129 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".InputPlaceActivity">
+    tools:context=".NewMeeting.InputPlaceActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <FrameLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/activity_input_place_btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|left"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/back_btn_iocn" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="출발 장소를 알려주세요"
+                android:textColor="#0741AD"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/activity_input_place_et_place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="위치입력" />
-    <Button
-        android:id="@+id/activity_input_place_btn_search_place"
+        android:hint="검색 할 장소를 입력해 주세요"
+        android:inputType="text" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="검색" />
-    <Button
-        android:id="@+id/activity_input_place_btn_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="다음" />
+        android:layout_height="50dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF">
+
+            <ImageButton
+                android:id="@+id/activity_input_place_btn_search_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/search_icon" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF">
+
+            <ImageButton
+                android:id="@+id/search_my_position"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:scaleType="centerInside"
+                android:src="@drawable/search_myposition_icon" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF">
+
+            <ImageButton
+                android:id="@+id/activity_input_place_btn_next"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:scaleType="centerInside"
+                android:src="@drawable/next_icon" />
+        </FrameLayout>
+
+    </LinearLayout>
 
     <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context=".MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_weight="1"
+        tools:context=".MapsActivity" />
 </LinearLayout>
