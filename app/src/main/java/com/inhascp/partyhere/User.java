@@ -7,15 +7,22 @@ public class User {
     private ArrayList<String> bookmarkPosition;
     private ArrayList<String> meetingKeys;
     private HashMap<String,String> meetingTitle;
+    private HashMap<String,Integer> meetingNumOfPerson;
     private String nickName;
 
     public User() {
+        bookmarkPosition = new ArrayList<>();
+        meetingKeys = new ArrayList<>();
+        meetingTitle = new HashMap<>();
+        meetingNumOfPerson= new HashMap<>();
+        nickName = "";
     }
 
-    public User(ArrayList<String> bookmarkPosition, ArrayList<String> meetingKeys, HashMap<String, String> meetingTitle, String nickName) {
+    public User(ArrayList<String> bookmarkPosition, ArrayList<String> meetingKeys, HashMap<String, String> meetingTitle, HashMap<String, Integer> meetingNumOfPerson, String nickName) {
         this.bookmarkPosition = bookmarkPosition;
         this.meetingKeys = meetingKeys;
         this.meetingTitle = meetingTitle;
+        this.meetingNumOfPerson = meetingNumOfPerson;
         this.nickName = nickName;
     }
 
@@ -33,5 +40,9 @@ public class User {
 
     public String getNickName() {
         return nickName;
+    }
+
+    public HashMap<String, Integer> getMeetingNumOfPerson() {
+        return meetingNumOfPerson;
     }
 }

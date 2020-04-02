@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.inhascp.partyhere.login.LoginActivity;
+
 public class Splash extends AppCompatActivity {
 
     @Override
