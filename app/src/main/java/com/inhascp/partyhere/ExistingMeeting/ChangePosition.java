@@ -15,7 +15,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -41,10 +46,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback;
-
 import static com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom;
 
 
@@ -61,9 +62,9 @@ public class ChangePosition extends AppCompatActivity
     private Marker currentMarker = null;
     private EditText mEtPlace;
     private String markerTitle;
-    private Button searchMyPositionBtn;
-    private Button mBtnNext;
-    private Button mBtnSearch;
+    private ImageButton searchMyPositionBtn;
+    private ImageButton mBtnNext;
+    private ImageButton mBtnSearch;
     private Geocoder geocoder;
 
     private static final String TAG = "Change Position";

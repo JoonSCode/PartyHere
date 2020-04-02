@@ -1,11 +1,13 @@
 package com.inhascp.partyhere.ExistingMeeting;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.GeoPoint;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StoreInf  implements Serializable {
+public class StoreInf implements Parcelable {
 
     private GeoPoint geo;
 
@@ -14,16 +16,17 @@ public class StoreInf  implements Serializable {
     private ArrayList<String> type;
     private String vicinity;
 
-    public StoreInf(){
-        geo = new GeoPoint(0,0);
-        placeId = new String("");
-        name = new String("");
-        type = new ArrayList<>();
-        vicinity = new String("");
+    public static final Creator<StoreInf> CREATOR = new Creator<StoreInf>() {
+        @Override
+        public StoreInf createFromParcel(Parcel in) {
+            return new StoreInf(in);
+        }
 
-
-
-    }
+        @Override
+        public StoreInf[] newArray(int size) {
+            return new StoreInf[size];
+        }
+    };
 
     public StoreInf(GeoPoint geo_, String placeId_, String name_, ArrayList<String> type_, String vicinity_){
         geo = geo_;
@@ -33,6 +36,23 @@ public class StoreInf  implements Serializable {
         vicinity = vicinity_;
     }
 
+    public StoreInf() {
+        geo = new GeoPoint(0, 0);
+        placeId = "";
+        name = "";
+        type = new ArrayList<>();
+        vicinity = "";
+
+
+    }
+
+    protected StoreInf(Parcel in) {
+        placeId = in.readString();
+        name = in.readString();
+        type = in.createStringArrayList();
+        vicinity = in.readString();
+    }
+
     public GeoPoint getGeo(){ return geo;}
 
     public String getPlaceId(){return placeId;}
@@ -40,5 +60,16 @@ public class StoreInf  implements Serializable {
     public ArrayList<String> getType(){return type;}
     public String getVicinity(){return vicinity; }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeDouble(geo.getLatitude());
+        parcel.writeDouble(geo.getLongitude());
+
+    }
 }

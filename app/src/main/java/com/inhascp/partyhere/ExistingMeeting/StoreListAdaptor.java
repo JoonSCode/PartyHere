@@ -1,7 +1,9 @@
 package com.inhascp.partyhere.ExistingMeeting;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,16 +38,21 @@ public class StoreListAdaptor extends RecyclerView.Adapter<StoreListAdaptor.View
     }
 
 
-    // 아이템 뷰를 저장하는 뷰홀더 클래스.
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView1 ;
+    // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
+    @Override
+    public void onBindViewHolder(StoreListAdaptor.ViewHolder holder, int position) {
 
-        ViewHolder(View itemView) {
-            super(itemView) ;
+        String text;
+        if (mData.size() > position) {
 
-            // 뷰 객체에 대한 참조. (hold strong reference)
-            textView1 = itemView.findViewById(R.id.store_name) ;
+            holder.storeInf = mData.get(position);
+            holder.storeAddress.setText(holder.storeInf.getVicinity());
+            holder.storeName.setText(holder.storeInf.getName());
+            //holder.storeName.setText(mData.get(position).getName()) ;
+            //holder.storeAddress.setText(mData.get(position).getVicinity());
         }
+
+
     }
 
 
@@ -62,18 +69,38 @@ public class StoreListAdaptor extends RecyclerView.Adapter<StoreListAdaptor.View
         return vh ;
     }
 
-    // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
-    @Override
-    public void onBindViewHolder(StoreListAdaptor.ViewHolder holder, int position) {
+    // 아이템 뷰를 저장하는 뷰홀더 클래스.
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView storeName;
+        TextView storeAddress;
+        StoreInf storeInf;
 
-        String text ;
-        if(mData.size() > position){
+        ViewHolder(View itemView) {
+            super(itemView);
 
-            text = mData.get(position).getName();
-            holder.textView1.setText(text) ;
+            // 뷰 객체에 대한 참조. (hold strong reference)
+            storeName = itemView.findViewById(R.id.store_name);
+            storeAddress = itemView.findViewById(R.id.store_address);
+            storeInf = new StoreInf();
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context, StoreDetailActivity.class);
+                    //intent.putExtra(("storeInf"),storeInf);
+                    intent.putExtra("storeName", storeInf.getName());
+                    intent.putExtra("storePlaceId", storeInf.getPlaceId());
+                    intent.putExtra("storeType", storeInf.getType());
+                    intent.putExtra("storeVicinity", storeInf.getVicinity());
+
+
+                    ((Activity) context).startActivityForResult(intent, 1);
+
+
+                }
+            });
         }
-
-
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

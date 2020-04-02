@@ -28,7 +28,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.inhascp.partyhere.ExistMeetingActivityBackup;
 import com.inhascp.partyhere.ExistingMeeting.ExistMeetingActivity;
 import com.inhascp.partyhere.NewMeeting.InputPlaceActivity;
 import com.inhascp.partyhere.R;
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         public void onPermissionGranted() {
             if(getIntent().getStringExtra("MEETING_KEY") != null){
                 System.out.println("방으로 자동 접속");
-                Intent mIntent = new Intent(getApplicationContext(), ExistMeetingActivityBackup.class);
+                Intent mIntent = new Intent(getApplicationContext(), ExistMeetingActivity.class);
                 mIntent.putExtra("MEETING_KEY", getIntent().getStringExtra("MEETING_KEY"));
                 startActivity(mIntent);
             }// 권한 승인이 필요없을 때 실행할 함수
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if(getIntent().getStringExtra("MEETING_KEY") != null){
                 System.out.println("방으로 자동 접속");
-                Intent mIntent = new Intent(getApplicationContext(), ExistMeetingActivityBackup.class);
+                Intent mIntent = new Intent(getApplicationContext(), ExistMeetingActivity.class);
                 mIntent.putExtra("MEETING_KEY", getIntent().getStringExtra("MEETING_KEY"));
                 startActivity(mIntent);
             }
