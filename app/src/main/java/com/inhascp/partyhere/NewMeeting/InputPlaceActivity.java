@@ -187,11 +187,11 @@ public class InputPlaceActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
                 if(addressList!= null && addressList.size() != 0) {
-                    System.out.println(addressList.get(0).toString());
+                    Log.d("나누기 전 주소",addressList.get(0).toString());
                     // 콤마를 기준으로 split
                     String[] splitStr = addressList.get(0).toString().split(",");
                     String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1, splitStr[0].length() - 2); // 주소
-                    System.out.println(address);
+                    Log.d("나누고 난 후 주소",address);
 
                     String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
 
@@ -203,8 +203,8 @@ public class InputPlaceActivity extends AppCompatActivity
                     //InputTypeActivity에서 mUserPlace로 받음 그러고 db에 넣는다.(?)
 
 
-                    System.out.println(latitude);
-                    System.out.println(longitude);
+                    Log.d("위도", latitude);
+                    Log.d("경도",longitude);
 
                     // 좌표(위도, 경도) 생성
                     LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
@@ -362,7 +362,7 @@ public class InputPlaceActivity extends AppCompatActivity
 
         } else {
             Address address = addresses.get(0);
-            System.out.println("출력!!!!!!!!!!!!: "+address.getAddressLine(0));
+            Log.d("주소",address.getAddressLine(0));
             return address.getAddressLine(0);
         }
 

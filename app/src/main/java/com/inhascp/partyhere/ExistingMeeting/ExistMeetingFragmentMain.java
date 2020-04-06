@@ -19,14 +19,7 @@ import com.inhascp.partyhere.R;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ExistMeetingFragmentMain.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ExistMeetingFragmentMain#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ExistMeetingFragmentMain extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,15 +37,6 @@ public class ExistMeetingFragmentMain extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExistMeetingFragmentMain.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ExistMeetingFragmentMain newInstance(String param1, String param2) {
         ExistMeetingFragmentMain fragment = new ExistMeetingFragmentMain();
 
@@ -85,7 +69,6 @@ public class ExistMeetingFragmentMain extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, list);
         mSpinnerType.setAdapter(arrayAdapter);
 
-
         mStores = storeList.get(5);//5번 - 디폴트인 스페셜리스트
 
         ///RecyclerView에 가게 리스트를 띄운다
@@ -111,21 +94,12 @@ public class ExistMeetingFragmentMain extends Fragment {
 
             @Override//기본
             public void onNothingSelected(AdapterView<?> parent) {
-
                 mStores = storeList.get(5);
                 adapter.setNewList(mStores);
 
                 adapter.notifyDataSetChanged();
-
             }
-
-
-
         });
-
-
-
-
         return view;
     }
 

@@ -2,6 +2,7 @@ package com.inhascp.partyhere.ExistingMeeting;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +45,7 @@ public class CalculateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calculate);
+       // setContentView(R.layout.activity_calculate);
 
 
         MEETING_KEY = getIntent().getStringExtra("MEETING_KEY");
@@ -69,7 +70,7 @@ public class CalculateActivity extends AppCompatActivity {
         protected StringBuilder doInBackground(URL... params) {
 
             HttpURLConnection mUrlConnection = null;
-
+            Log.d("맵 key", API_KEY);
             try {
                 for (int n = 0; n < PLACE_SIZE; n++) {//모든 상권에 대해 소요시간 검색(api url 만들기)
                     StringBuilder mJsonResults = new StringBuilder();

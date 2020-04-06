@@ -181,6 +181,7 @@ public class ExistMeetingActivity extends AppCompatActivity {
                         double total = 0;
                         double average = 0;
                         for (int n = 0; n < lists.size(); n++) {
+                            Log.d("추천","i:"+Integer.toString(i) +", n:" +Integer.toString(n));
                             total = lists.get(n).get(i);
                         }
                         average = total / lists.size();//평균 이동시간
