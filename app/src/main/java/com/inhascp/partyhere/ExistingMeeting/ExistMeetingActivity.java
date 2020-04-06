@@ -2,6 +2,7 @@ package com.inhascp.partyhere.ExistingMeeting;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.inhascp.partyhere.Meeting;
 import com.inhascp.partyhere.R;
+import com.inhascp.partyhere.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,19 +72,14 @@ public class ExistMeetingActivity extends AppCompatActivity {
         typeNum = Arrays.asList(false, false, false, false, false);
 
 
-        places = new ArrayList<String>();
-
-        //  places.add("가락시장역");//
-        // places.add("강남구청역");// 아직 장소 알고리즘 적용 안되서 임시로 넣음.
-        storeList = new ArrayList < ArrayList<StoreInf>>();
+        places = new ArrayList<>();
+        storeList = new ArrayList<>();
         MEETING_KEY = getIntent().getStringExtra("MEETING_KEY");//
         meetingName = getIntent().getStringExtra("meetingName");
 
-
         getMeeting = new getMeeting();
-        getMeeting.execute();
         task = new BackgroundTask(ExistMeetingActivity.this);
-
+        getMeeting.execute();
 
     }
 
@@ -161,6 +158,13 @@ public class ExistMeetingActivity extends AppCompatActivity {
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     meeting = documentSnapshot.toObject(Meeting.class);
 
+                    if (!meeting.getMemberTransferTime().containsKey(LoginActivity.USER_KEY)) {
+                        Intent intent = new Intent(getApplicationContext(), CalculateActivity.class);
+                        intent.putExtra("MEETING_KEY", MEETING_KEY);
+                        intent.putExtra("START_POINT", meeting.getMemberKeyPlace().get(LoginActivity.USER_KEY));
+                        startActivity(intent);
+                    }
+
                     typeNum = meeting.getMeetingType();
 
                     jobFinish0 = true;
@@ -195,6 +199,7 @@ public class ExistMeetingActivity extends AppCompatActivity {
                     for (int i = 0; i < 3; i++) {
                         places.add(PlaceList.get(arr[i].y));
                     }
+                    Log.d("추천 지역", places.toString());
                     task.execute(); //이후에 onCeate에서 할 것들 다 task의 post로 옮김.
 
                 }

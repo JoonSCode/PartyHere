@@ -131,6 +131,10 @@ public class ChangePosition extends AppCompatActivity
                         .update(
                                 "memberKeyPlace." + USER_KEY, mEtPlace.getText().toString()
                         );
+                Intent intent = new Intent(getApplicationContext(), CalculateActivity.class);
+                intent.putExtra("MEETING_KEY", MEETING_KEY);
+                intent.putExtra("START_POINT", mEtPlace.getText().toString());
+                startActivity(intent);
                 finish();
             }
         });
