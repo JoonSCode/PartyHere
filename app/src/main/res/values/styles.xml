@@ -26,7 +26,7 @@
 
 
     <style name="SpinnerDivideStyle" parent="android:style/Widget.ListView.DropDown">
-        <item name="android:divider">#B4B4B4</item> <!-- divider 색 -->
+        <item name="android:divider">#000000</item> <!-- divider 색 -->
         <item name="android:dividerHeight">1dp</item> <!-- divider 높이 -->
     </style>
 

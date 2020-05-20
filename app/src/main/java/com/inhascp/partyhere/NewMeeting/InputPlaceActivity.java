@@ -91,7 +91,7 @@ public class InputPlaceActivity extends AppCompatActivity
         setContentView(R.layout.activity_input_place);
         USER_KEY = LoginActivity.USER_KEY;
         mEtPlace =findViewById(R.id.activity_input_place_et_place);
-        searchMyPositionBtn =findViewById(R.id.search_my_position);
+        searchMyPositionBtn = findViewById(R.id.search_my_position);
         mBtnNext =findViewById(R.id.activity_input_place_btn_next);
         mBtnSearch = findViewById(R.id.activity_input_place_btn_search_place);
 
@@ -381,8 +381,6 @@ public class InputPlaceActivity extends AppCompatActivity
 
 
         if (currentMarker != null) currentMarker.remove();
-
-
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentLatLng);

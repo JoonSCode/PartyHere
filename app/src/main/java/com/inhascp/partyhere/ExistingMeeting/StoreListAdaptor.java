@@ -21,16 +21,6 @@ public class StoreListAdaptor extends RecyclerView.Adapter<StoreListAdaptor.View
 
     private Context context;
 
-
-    /* 생성자에서 데이터 리스트 객체를 전달받음.
-    public StoreListAdaptor(Context context, ArrayList<String> textList){
-
-        this.context = context;
-        this.mData = textList;
-    }
-
-     */
-
     public StoreListAdaptor(Context context,  ArrayList<StoreInf> stores){
 
         this.context = context;
@@ -63,9 +53,7 @@ public class StoreListAdaptor extends RecyclerView.Adapter<StoreListAdaptor.View
         //Context context = parent.getContext() ;
         //LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.storelist_view,parent,false);
-
         StoreListAdaptor.ViewHolder vh = new StoreListAdaptor.ViewHolder(view) ;
-
         return vh ;
     }
 
@@ -93,11 +81,7 @@ public class StoreListAdaptor extends RecyclerView.Adapter<StoreListAdaptor.View
                     intent.putExtra("storePlaceId", storeInf.getPlaceId());
                     intent.putExtra("storeType", storeInf.getType());
                     intent.putExtra("storeVicinity", storeInf.getVicinity());
-
-
                     ((Activity) context).startActivityForResult(intent, 1);
-
-
                 }
             });
         }
@@ -106,13 +90,10 @@ public class StoreListAdaptor extends RecyclerView.Adapter<StoreListAdaptor.View
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-
-
         return mData.size() ;
     }
 
     public void setNewList(ArrayList<StoreInf> stores){
-
         mData = stores;
         notifyDataSetChanged();
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +20,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.inhascp.partyhere.ExistingMeeting.ExistMeetingActivity;
+import com.inhascp.partyhere.Meeting;
 import com.inhascp.partyhere.NewMeeting.InputPlaceActivity;
 import com.inhascp.partyhere.R;
 import com.inhascp.partyhere.User;
@@ -37,6 +41,8 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,10 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("");
 
-
         task.execute();
-
-
         mNewMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +101,7 @@ public class MainActivity extends AppCompatActivity {
             InputPlaceActivity activity = InputPlaceActivity.activity;
             activity.finish();
         }
-
         checkPermissions();
-
     }
 
 
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             getPlace();
-            getMeetingList();
+            getUser();
             while(user==null || PLACE == null) {
                 try {
                     Thread.sleep(50);
@@ -177,38 +178,50 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Integer integer) {
-
         }
     }
 
     //필요한 정보 받아오기---------------------------------------------------------------------------
-    protected void getMeetingList(){
-        db.collection("User").document(USER_KEY).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+    protected void getMeetingList() {
+        db.collection("Meeting").whereArrayContains("memberKeys", USER_KEY).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                System.out.println(queryDocumentSnapshots.toString());
                 if (e != null) {
                     return;
                 }
-                if (snapshot != null && snapshot.exists()) {
-                    user = snapshot.toObject(User.class);
 
-                    ArrayList<String> mMeetingKeys = user.getMeetingKeys();
+                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                     mListViewAdapter.clear();
-
-                    for(int i = 0; i < mMeetingKeys.size(); i++) {
-                        String mMeetingKey = mMeetingKeys.get(i);
+                    for (DocumentSnapshot ds : queryDocumentSnapshots) {
+                        Meeting meeting = ds.toObject(Meeting.class);
+                        String mMeetingKey = ds.getId();
                         String mMeetingTitle = user.getMeetingTitle().get(mMeetingKey);
                         Integer mUserCnt = user.getMeetingNumOfPerson().get(mMeetingKey);
-                        mListViewAdapter.addItem(mMeetingTitle,mMeetingKey, mUserCnt);
+                        List<Boolean> types = meeting.getMeetingType();
+                        int type = 0;
+                        Boolean multi = false;
+                        for(int i =0; i <5; i++){
+                            if (!types.get(i)) {
+                                continue;
+                            }
+                            if(multi){
+                                type = 0;
+                                break;
+                            }
+                            type = i+1;
+                            multi = true;
+                        }
+                        Log.d("타입", Integer.toString(type));
+                        mListViewAdapter.addItem(mMeetingTitle, mMeetingKey, mUserCnt, type);
                     }
-
                     mListView.setAdapter(mListViewAdapter);
 
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView parent, View v, int position, long id) {
                             // get item
-                            MeetingListItem item =  (MeetingListItem) parent.getItemAtPosition(position) ;
+                            MeetingListItem item = (MeetingListItem) parent.getItemAtPosition(position);
 
                             mIntent = new Intent(getApplicationContext(), ExistMeetingActivity.class);
                             mIntent.putExtra("MEETING_KEY", item.getmMeetingKey());
@@ -216,9 +229,19 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(mIntent);
 
                         }
-                    }) ;
+                    });
                 }
-                else {
+            }
+        });
+    }
+    protected void getUser() {
+        db.collection("User").document(USER_KEY).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) return;
+                if (snapshot != null && snapshot.exists()) {
+                    user = snapshot.toObject(User.class);
+                    new TaskAsync().execute();
                 }
             }
         });
@@ -246,5 +269,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    protected class TaskAsync extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void...a) {
+            getMeetingList();
+            return null;
+        }
     }
 }

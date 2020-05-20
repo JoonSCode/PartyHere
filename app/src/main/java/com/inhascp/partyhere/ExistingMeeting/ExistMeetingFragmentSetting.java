@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -33,6 +35,7 @@ import com.inhascp.partyhere.User;
 import com.inhascp.partyhere.login.LoginActivity;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -60,18 +63,17 @@ public class ExistMeetingFragmentSetting extends Fragment {
     private ImageButton mTypeTalkImgBtn;
     private LinearLayout mCheckboxTalk;
 
-    private CheckBox mTypeEat;//값 3
+    private CheckBox mTypeEatCheckBox;//값 3
     private ImageButton mTypeEatImgBtn;
     private LinearLayout mCheckboxEat;
 
-    private CheckBox mTypeDrink;//값 4
+    private CheckBox mTypeDrinkCheckBox;//값 4
     private ImageButton mTypeDrinkImgBtn;
     private LinearLayout mCheckboxDrink;
 
-    private CheckBox mTypeActivity;//값 5
+    private CheckBox mTypeActivityCheckBox;//값 5
     private ImageButton mTypeActivityImgBtn;
     private LinearLayout mCheckboxActivity;
-
 
     private backgroundUserTask getUserTask;
 
@@ -101,8 +103,12 @@ public class ExistMeetingFragmentSetting extends Fragment {
 
         //init
         init(rootView);
+        initFunction();
 
+        return rootView;
+    }
 
+    private void initFunction() {
         mTypeStudyCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -111,7 +117,6 @@ public class ExistMeetingFragmentSetting extends Fragment {
                     mTypeStudyCheckBox.setBackgroundColor(Color.parseColor("#0741AD"));
                     mTypeStudyImgBtn.setImageResource(R.drawable.study_icon_changed);
                     mCheckboxStudy.setBackgroundResource(R.drawable.round_checkbox_checked);
-
                 }
                 if(!isChecked){
                     mTypeStudyCheckBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -138,52 +143,52 @@ public class ExistMeetingFragmentSetting extends Fragment {
                 }
             }
         });
-        mTypeEat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mTypeEatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mTypeEat.setTextColor(Color.parseColor("#FFFFFF"));
-                    mTypeEat.setBackgroundColor(Color.parseColor("#0741AD"));
+                    mTypeEatCheckBox.setTextColor(Color.parseColor("#FFFFFF"));
+                    mTypeEatCheckBox.setBackgroundColor(Color.parseColor("#0741AD"));
                     mTypeEatImgBtn.setImageResource(R.drawable.eat_icon_changed);
                     mCheckboxEat.setBackgroundResource(R.drawable.round_checkbox_checked);
                 }
                 if(!isChecked){
-                    mTypeEat.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    mTypeEat.setTextColor(Color.parseColor("#000000"));
+                    mTypeEatCheckBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    mTypeEatCheckBox.setTextColor(Color.parseColor("#000000"));
                     mTypeEatImgBtn.setImageResource(R.drawable.eat_icon);
                     mCheckboxEat.setBackgroundResource(R.drawable.round_checkbox);
                 }
             }
         });
-        mTypeDrink.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mTypeDrinkCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mTypeDrink.setTextColor(Color.parseColor("#FFFFFF"));
-                    mTypeDrink.setBackgroundColor(Color.parseColor("#0741AD"));
+                    mTypeDrinkCheckBox.setTextColor(Color.parseColor("#FFFFFF"));
+                    mTypeDrinkCheckBox.setBackgroundColor(Color.parseColor("#0741AD"));
                     mTypeDrinkImgBtn.setImageResource(R.drawable.drink_icon_changed);
                     mCheckboxDrink.setBackgroundResource(R.drawable.round_checkbox_checked);
                 }
                 if(!isChecked){
-                    mTypeDrink.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    mTypeDrink.setTextColor(Color.parseColor("#000000"));
+                    mTypeDrinkCheckBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    mTypeDrinkCheckBox.setTextColor(Color.parseColor("#000000"));
                     mTypeDrinkImgBtn.setImageResource(R.drawable.drink_icon);
                     mCheckboxDrink.setBackgroundResource(R.drawable.round_checkbox);
                 }
             }
         });
-        mTypeActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mTypeActivityCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mTypeActivity.setTextColor(Color.parseColor("#FFFFFF"));
-                    mTypeActivity.setBackgroundColor(Color.parseColor("#0741AD"));
+                    mTypeActivityCheckBox.setTextColor(Color.parseColor("#FFFFFF"));
+                    mTypeActivityCheckBox.setBackgroundColor(Color.parseColor("#0741AD"));
                     mTypeActivityImgBtn.setImageResource(R.drawable.activity_icon_changed);
                     mCheckboxActivity.setBackgroundResource(R.drawable.round_checkbox_checked);
                 }
                 if(!isChecked){
-                    mTypeActivity.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    mTypeActivity.setTextColor(Color.parseColor("#000000"));
+                    mTypeActivityCheckBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    mTypeActivityCheckBox.setTextColor(Color.parseColor("#000000"));
                     mTypeActivityImgBtn.setImageResource(R.drawable.activity_icon);
                     mCheckboxActivity.setBackgroundResource(R.drawable.round_checkbox);
 
@@ -191,20 +196,22 @@ public class ExistMeetingFragmentSetting extends Fragment {
             }
         });
 
+        CheckBox [] mTypeCheckBox={mTypeStudyCheckBox,mTypeTalkCheckBox,mTypeEatCheckBox,mTypeDrinkCheckBox,mTypeActivityCheckBox};
+
+        List<Boolean> meetingType = meeting.getMeetingType();
+        for(int i =0; i < mTypeCheckBox.length; i++)
+            if(meetingType.get(i)) mTypeCheckBox[i].setChecked(true);
+
+
+
 ////////////////////모임 갱신 버튼- 일단 이름만 갱신됨. 그 타입 버튼 누르면 튕기더라.
         mBtnRenew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 newTitle =  mEditTitle.getText().toString();
                 System.out.println("제발 1 ㅋㅋㅋ");
                 //백그라운드에서 또 태스크 돌리자
-                changeTask ct = new changeTask(getContext());
-                ct.execute();
-
-
-
+                new changeTask(getContext()).execute();
             }
         });
         mBtnLeave.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +251,7 @@ public class ExistMeetingFragmentSetting extends Fragment {
             }
         });
 
-        return rootView;
+
     }
 
     protected void getUser() {
@@ -280,19 +287,18 @@ public class ExistMeetingFragmentSetting extends Fragment {
         mTypeTalkImgBtn = rootView.findViewById(R.id.fragment_exist_meeting_setting_imgbtn_talk);
         mCheckboxTalk = rootView.findViewById(R.id.fragment_exist_meeting_setting_checkbox_talk);
 
-        mTypeEat = rootView.findViewById(R.id.fragment_exist_meeting_setting_cb_eat);
+        mTypeEatCheckBox = rootView.findViewById(R.id.fragment_exist_meeting_setting_cb_eat);
         mTypeEatImgBtn = rootView.findViewById(R.id.fragment_exist_meeting_setting_imgbtn_eat);
         mCheckboxEat= rootView.findViewById(R.id.fragment_exist_meeting_setting_checkbox_eat);
 
-        mTypeDrink = rootView.findViewById(R.id.fragment_exist_meeting_setting_cb_drink);
+        mTypeDrinkCheckBox = rootView.findViewById(R.id.fragment_exist_meeting_setting_cb_drink);
         mTypeDrinkImgBtn = rootView.findViewById(R.id.fragment_exist_meeting_setting_imgbtn_drink);
         mCheckboxDrink = rootView.findViewById(R.id.fragment_exist_meeting_setting_checkbox_drink);
 
-        mTypeActivity = rootView.findViewById(R.id.fragment_exist_meeting_setting_cb_activity);
+        mTypeActivityCheckBox = rootView.findViewById(R.id.fragment_exist_meeting_setting_cb_activity);
         mTypeActivityImgBtn = rootView.findViewById(R.id.fragment_exist_meeting_setting_imgbtn_activity);
         mCheckboxActivity = rootView.findViewById(R.id.fragment_exist_meeting_setting_checkbox_activity);
         backBtn = rootView.findViewById(R.id.imageView4);
-
 
         getUserTask.execute();
 
@@ -337,7 +343,8 @@ public class ExistMeetingFragmentSetting extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-
+                            Toast.makeText(getContext(), "갱신 완료",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

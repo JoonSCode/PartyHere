@@ -1,15 +1,18 @@
 package com.inhascp.partyhere.ui.main;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.inhascp.partyhere.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
@@ -41,6 +44,7 @@ public class ListViewAdapter extends BaseAdapter {
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView titleTextView = convertView.findViewById(R.id.fragment_tab1_meeting_list_meeting_name) ;
         TextView numOfPerson = convertView.findViewById(R.id.fragment_tab1_meeting_list_meeting_person_cnt) ;
+        ImageView meetingType = convertView.findViewById(R.id.meeting_item_iv_meeting_type);
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         MeetingListItem listViewItem = listViewItemList.get(position);
 
@@ -48,6 +52,32 @@ public class ListViewAdapter extends BaseAdapter {
 
         titleTextView.setText(listViewItem.getmName());
         numOfPerson.setText(Integer.toString(listViewItem.getmNumOfPerson()));
+        switch (listViewItem.getmMeetingType()){
+            case 0 : {
+                meetingType.setImageResource(R.drawable.multi);
+                break;
+            }
+            case 1: {
+                meetingType.setImageResource(R.drawable.study);
+                break;
+            }
+            case 2: {
+                meetingType.setImageResource(R.drawable.talk);
+                break;
+            }
+            case 3: {
+                meetingType.setImageResource(R.drawable.eat);
+                break;
+            }
+            case 4: {
+                meetingType.setImageResource(R.drawable.drink);
+                break;
+            }
+            case 5: {
+                meetingType.setImageResource(R.drawable.movie);
+                break;
+            }
+        }
         return convertView;
     }
 
@@ -64,12 +94,13 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String MEETING_KEY, Integer person_cnt) {
+    public void addItem(String title, String MEETING_KEY, Integer person_cnt, int type) {
         MeetingListItem item = new MeetingListItem();
 
         item.setmName(title);
         item.setmMeetingKey(MEETING_KEY);
         item.setmNumOfPerson(person_cnt);
+        item.setmMeetingType(type);
         listViewItemList.add(item);
     }
     public void clear(){
